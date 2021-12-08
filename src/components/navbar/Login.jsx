@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import FormGroup from "../FormGroup";
 import {Button, Form, Modal} from "react-bootstrap";
+import {formValidate, onSubmitValidation} from "../../utils/form-validate";
 
 function Login(props) {
     const [user, setUser] = useState({
@@ -8,15 +9,34 @@ function Login(props) {
         password: ''
     });
 
-    function handleChange(event){
+    const [errors, setErrors] = useState({
+        email: '',
+        password: ''
+    });
+
+    function handleChange(event) {
         const {name, value} = event.target;
 
-        setUser((prevValue)=>{
+        setErrors((prevValue) => {
             return {
                 ...prevValue,
-                [name] : value
+                [name]: formValidate(name, value)
             }
         });
+
+        setUser((prevValue) => {
+            return {
+                ...prevValue,
+                [name]: value
+            }
+        });
+    }
+
+    function login(event) {
+        if (onSubmitValidation(user)){
+            setErrors(onSubmitValidation(user));
+        }
+        event.preventDefault();
     }
 
     return (
@@ -27,16 +47,17 @@ function Login(props) {
             <Modal.Body>
                 <Form>
                     <FormGroup label='Email Adresi' type='email' name='email' value={user.email} onChange={handleChange}
-                               placeholder='Email Adresiniz' error=''/>
-                    <FormGroup label='Parola' type='password' name='password' value={user.password} onChange={handleChange}
-                               placeholder='Parolanız' error=''/>
+                               placeholder='Email Adresiniz' error={errors.email}/>
+                    <FormGroup label='Parola' type='password' name='password' value={user.password}
+                               onChange={handleChange}
+                               placeholder='Parolanız' error={errors.password}/>
                 </Form>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="secondary" >
+                <Button variant="secondary">
                     İptal
                 </Button>
-                <Button variant="success" >
+                <Button variant="success" onClick={login}>
                     Giriş Yap
                 </Button>
             </Modal.Footer>
