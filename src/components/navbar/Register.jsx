@@ -2,12 +2,15 @@ import React, {useState} from "react";
 import {Button, Col, Form, Modal, Row} from "react-bootstrap";
 import FormGroup from "../FormGroup";
 import {formValidate, onSubmitValidation} from "../../utils/form-validate";
+import {useDispatch} from "react-redux";
+import {register} from "../../redux/action-creators";
 
 function Register(props) {
+    const dispatch = useDispatch();
     const [user, setUser] = useState({
         firstName: '',
         lastName: '',
-        email: '',
+        username: '',
         password: ''
     });
 
@@ -36,12 +39,14 @@ function Register(props) {
         });
     }
 
-    function register(event){
+    function handleRegister(event){
+        event.preventDefault();
 
         if (onSubmitValidation(user)){
             setErrors(onSubmitValidation(user));
         }
-        event.preventDefault();
+
+        dispatch(register(user));
     }
 
     return (
@@ -61,7 +66,7 @@ function Register(props) {
                                        placeholder='Soyadınız' error={errors.lastName}/>
                         </Col>
                     </Row>
-                    <FormGroup label='Email Adresi' type='email' name='email' value={user.email} onChange={handleChange}
+                    <FormGroup label='Email Adresi' type='email' name='username' value={user.username} onChange={handleChange}
                                placeholder='Email Adresiniz' error={errors.email}/>
                     <FormGroup label='Parola' type='password' name='password' value={user.password} onChange={handleChange}
                                placeholder='Parolanız' error={errors.password}/>
@@ -71,7 +76,7 @@ function Register(props) {
                 <Button variant="secondary" >
                     İptal
                 </Button>
-                <Button variant="success" onClick={register}>
+                <Button variant="success" onClick={handleRegister}>
                     Kayıt Ol
                 </Button>
             </Modal.Footer>
