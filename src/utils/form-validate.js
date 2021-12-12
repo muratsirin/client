@@ -12,7 +12,7 @@ export function formValidate(name, value) {
                 return 'Soyad alanı boş olamaz.';
             }
             return '';
-        case 'email':
+        case 'username':
             if (!value) {
                 return 'Email alanı boş olamaz.';
             } else if (!emailRegex.test(value)) {

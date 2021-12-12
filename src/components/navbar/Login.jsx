@@ -2,15 +2,18 @@ import React, {useState} from "react";
 import FormGroup from "../FormGroup";
 import {Button, Form, Modal} from "react-bootstrap";
 import {formValidate, onSubmitValidation} from "../../utils/form-validate";
+import {useDispatch} from "react-redux";
+import {login} from "../../redux/action-creators";
 
 function Login(props) {
+    const dispatch = useDispatch();
     const [user, setUser] = useState({
-        email: '',
+        username: '',
         password: ''
     });
 
     const [errors, setErrors] = useState({
-        email: '',
+        username: '',
         password: ''
     });
 
@@ -32,11 +35,13 @@ function Login(props) {
         });
     }
 
-    function login(event) {
-        if (onSubmitValidation(user)){
+    function handleLogin(event) {
+        event.preventDefault();
+        if (onSubmitValidation(user)) {
             setErrors(onSubmitValidation(user));
         }
-        event.preventDefault();
+        dispatch(login(user));
+
     }
 
     return (
@@ -46,8 +51,9 @@ function Login(props) {
             </Modal.Header>
             <Modal.Body>
                 <Form>
-                    <FormGroup label='Email Adresi' type='email' name='email' value={user.email} onChange={handleChange}
-                               placeholder='Email Adresiniz' error={errors.email}/>
+                    <FormGroup label='Email Adresi' type='email' name='username' value={user.username}
+                               onChange={handleChange}
+                               placeholder='Email Adresiniz' error={errors.username}/>
                     <FormGroup label='Parola' type='password' name='password' value={user.password}
                                onChange={handleChange}
                                placeholder='Parolanız' error={errors.password}/>
@@ -57,7 +63,7 @@ function Login(props) {
                 <Button variant="secondary">
                     İptal
                 </Button>
-                <Button variant="success" onClick={login}>
+                <Button variant="success" onClick={handleLogin}>
                     Giriş Yap
                 </Button>
             </Modal.Footer>

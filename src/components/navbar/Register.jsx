@@ -17,7 +17,7 @@ function Register(props) {
     const [errors, setErrors] = useState({
         firstName: '',
         lastName: '',
-        email: '',
+        username: '',
         password: ''
     });
 
@@ -67,7 +67,7 @@ function Register(props) {
                         </Col>
                     </Row>
                     <FormGroup label='Email Adresi' type='email' name='username' value={user.username} onChange={handleChange}
-                               placeholder='Email Adresiniz' error={errors.email}/>
+                               placeholder='Email Adresiniz' error={errors.username}/>
                     <FormGroup label='Parola' type='password' name='password' value={user.password} onChange={handleChange}
                                placeholder='Parolanız' error={errors.password}/>
                 </Form>

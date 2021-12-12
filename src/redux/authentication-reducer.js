@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken';
+
 import {
     LOGIN_REQUEST,
     LOGIN_SUCCESS,
@@ -20,7 +21,6 @@ function isValidToken(token) {
 const initState = {
     currentUser: localStorage.getItem('USER-TOKEN')
         ? isValidToken(localStorage.getItem('USER-TOKEN')) : null,
-    token: localStorage.getItem('USER-TOKEN') ? localStorage.getItem('USER-TOKEN') : null,
     error: '',
     loading: false,
     isLoggedIn: false
@@ -48,11 +48,11 @@ function authenticationReducer(state = initState, action) {
             };
         case REGISTER_SUCCESS:
         case LOGIN_SUCCESS:
+            console.log(action.payload.user)
             return {
                 ...state,
                 loading: false,
-                token: action.payload,
-                currentUser: action.payload.user,
+                currentUser: action.payload,
                 isLoggedIn: true,
             };
         case LOGOUT_SUCCESS:

@@ -10,7 +10,6 @@ function createRootReducer(){
 const initState = {
     authentication:{
         currentUser: null,
-        token: '',
         error: '',
         loading: false,
         isLoggedIn: false,

@@ -1,6 +1,4 @@
-import axios from "axios";
 import api from '../api/auth-api';
-
 import {
     LOGIN_REQUEST,
     LOGIN_SUCCESS,
@@ -40,9 +38,13 @@ function register(user) {
         dispatch(registerRequest());
         api.register(user, {
             method: 'POST',
-            data: user
+            data: user,
+            headers: {
+                authorization: 'Bearer ' + localStorage.getItem('USER-TOKEN'),
+            },
         }).then(response => response).then(res => {
             const data = res.data.user;
+            localStorage.setItem('USER-TOKEN', data.token);
             dispatch(registerSuccess(data));
         }).catch((error) => {
             dispatch(registerFailure(error));
@@ -56,11 +58,11 @@ function loginRequest() {
     };
 }
 
-function loginSuccess(token) {
+function loginSuccess(user) {
     return {
         type: LOGIN_SUCCESS,
         payload: {
-            token,
+            user,
         },
     };
 }
@@ -72,23 +74,23 @@ function loginFailure(error) {
     };
 }
 
-function login(payload) {
+function login(user) {
     return function (dispatch) {
-        dispatch(loginRequest);
-        axios({
+        dispatch(loginRequest());
+        api.login(payload,{
             method: 'POST',
-            url: '/login',
-            data: payload,
+            data: user,
             headers: {
                 authorization: 'Bearer ' + localStorage.getItem('USER-TOKEN'),
             },
-        }).then((response) => {
-            const {token} = response.data;
-            localStorage.setItem('USER-TOKEN', token);
-            dispatch(loginSuccess(token));
-        }).catch((error) => {
+        }).then(response => response).then(res=>{
+            console.log(res)
+            const data = res.data.user;
+            localStorage.setItem('USER-TOKEN', data.token);
+            dispatch(loginSuccess(data));
+        }).catch((error=>{
             dispatch(loginFailure(error));
-        });
+        }));
     };
 }
 
@@ -114,7 +116,7 @@ function logout() {
     return function (dispatch) {
         dispatch(logoutRequest());
         localStorage.clear();
-        if (!localStorage.getItem('USER-TOKEN')) {
+        if (localStorage.getItem('USER-TOKEN')) {
             dispatch(logoutFailure());
         } else {
             dispatch(logoutSuccess());
