@@ -15,15 +15,15 @@ import {
 function isValidToken(token) {
     const decodedToken = jwt.decode(token);
 
-    return new Date(decodedToken.exp * 60) > new Date() ? decodedToken : null;
+    return new Date(decodedToken.exp * 1000) > new Date() ? decodedToken : null;
 }
 
+const currentUser = localStorage.getItem('USER-TOKEN');
 const initState = {
-    currentUser: localStorage.getItem('USER-TOKEN')
-        ? isValidToken(localStorage.getItem('USER-TOKEN')) : null,
-    error: '',
-    loading: false,
-    isLoggedIn: false
+    currentUser: currentUser && isValidToken(currentUser),
+    token: currentUser && currentUser,
+    loading: !currentUser && true,
+    isLoggedIn: currentUser && true,
 };
 
 function authenticationReducer(state = initState, action) {
@@ -48,11 +48,11 @@ function authenticationReducer(state = initState, action) {
             };
         case REGISTER_SUCCESS:
         case LOGIN_SUCCESS:
-            console.log(action.payload.user)
             return {
                 ...state,
                 loading: false,
-                currentUser: action.payload,
+                currentUser: isValidToken(action.payload.token),
+                token: action.payload.token,
                 isLoggedIn: true,
             };
         case LOGOUT_SUCCESS:

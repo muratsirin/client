@@ -1,4 +1,4 @@
-import api from '../api/auth-api';
+import {authService} from "../services/auth-service";
 import {
     LOGIN_REQUEST,
     LOGIN_SUCCESS,
@@ -17,11 +17,11 @@ function registerRequest() {
     };
 }
 
-function registerSuccess(user) {
+function registerSuccess(token) {
     return {
         type: REGISTER_SUCCESS,
         payload: {
-            user,
+            token,
         },
     };
 }
@@ -36,17 +36,9 @@ function registerFailure(error) {
 function register(user) {
     return function (dispatch) {
         dispatch(registerRequest());
-        api.register(user, {
-            method: 'POST',
-            data: user,
-            headers: {
-                authorization: 'Bearer ' + localStorage.getItem('USER-TOKEN'),
-            },
-        }).then(response => response).then(res => {
-            const data = res.data.user;
-            localStorage.setItem('USER-TOKEN', data.token);
-            dispatch(registerSuccess(data));
-        }).catch((error) => {
+        authService.register(user).then(token => {
+            dispatch(registerSuccess(token));
+        }).catch(error => {
             dispatch(registerFailure(error));
         });
     };
@@ -58,11 +50,11 @@ function loginRequest() {
     };
 }
 
-function loginSuccess(user) {
+function loginSuccess(token) {
     return {
         type: LOGIN_SUCCESS,
         payload: {
-            user,
+            token,
         },
     };
 }
@@ -77,20 +69,11 @@ function loginFailure(error) {
 function login(user) {
     return function (dispatch) {
         dispatch(loginRequest());
-        api.login(payload,{
-            method: 'POST',
-            data: user,
-            headers: {
-                authorization: 'Bearer ' + localStorage.getItem('USER-TOKEN'),
-            },
-        }).then(response => response).then(res=>{
-            console.log(res)
-            const data = res.data.user;
-            localStorage.setItem('USER-TOKEN', data.token);
-            dispatch(loginSuccess(data));
-        }).catch((error=>{
+        authService.login(user).then(token => {
+            dispatch(loginSuccess(token));
+        }).catch(error => {
             dispatch(loginFailure(error));
-        }));
+        });
     };
 }
 
@@ -115,12 +98,12 @@ function logoutFailure() {
 function logout() {
     return function (dispatch) {
         dispatch(logoutRequest());
-        localStorage.clear();
-        if (localStorage.getItem('USER-TOKEN')) {
-            dispatch(logoutFailure());
-        } else {
+        authService.logout();
+        if (!localStorage.getItem('USER')) {
             dispatch(logoutSuccess());
+
         }
+        dispatch(logoutFailure());
     };
 }
 
