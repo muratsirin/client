@@ -3,7 +3,7 @@ import {Button, Col, Form, Modal, Row} from "react-bootstrap";
 import FormGroup from "../FormGroup";
 import {formValidate, onSubmitValidation} from "../../utils/form-validate";
 import {useDispatch} from "react-redux";
-import {register} from "../../redux/action-creators";
+import {register} from "../../redux/authentication/auth-action-creators";
 
 function Register(props) {
     const dispatch = useDispatch();

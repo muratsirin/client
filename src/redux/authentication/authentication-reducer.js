@@ -10,7 +10,7 @@ import {
     LOGOUT_REQUEST,
     LOGOUT_SUCCESS,
     LOGOUT_FAILURE
-} from "./action-types";
+} from "./auth-action-types";
 
 function isValidToken(token) {
     const decodedToken = jwt.decode(token);

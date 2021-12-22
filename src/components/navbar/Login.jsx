@@ -3,7 +3,7 @@ import FormGroup from "../FormGroup";
 import {Button, Form, Modal} from "react-bootstrap";
 import {formValidate, onSubmitValidation} from "../../utils/form-validate";
 import {useDispatch} from "react-redux";
-import {login} from "../../redux/action-creators";
+import {login} from "../../redux/authentication/auth-action-creators";
 
 function Login(props) {
     const dispatch = useDispatch();

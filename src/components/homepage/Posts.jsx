@@ -1,21 +1,38 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {Button, Card} from "react-bootstrap";
+import {useDispatch, useSelector} from "react-redux";
+import {fetchPosts} from "../../redux/post/post-action-creators";
+import Loader from 'react-loader-spinner';
 
 function Posts() {
+    const dispatch = useDispatch();
+    const posts = useSelector((state) => state.post);
+    useEffect(() => {
+        dispatch(fetchPosts());
+    }, [])
+
+    function handleSubmit(event) {
+        event.preventDefault();
+        posts.posts.posts.map(post => {
+            console.log(post.title);
+        })
+    }
+
     return (
-        <Card className='mb-4'>
-            <Card.Img variant='top' src='https://dummyimage.com/700x250/dee2e6/6c757d.jpg'/>
-            <Card.Body>
-                <Card.Subtitle className='text-muted small'>5.12.2021 18:51</Card.Subtitle>
-                <Card.Title>Post Title</Card.Title>
-                <Card.Text>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc imperdiet imperdiet elit, vitae
-                    ultrices lectus eleifend id. Nulla cursus mi a blandit vestibulum. Nullam quis felis ut diam
-                    accumsan sodales eu et nibh. Orci varius natoque penatibus et magnis dis parturient montes, nascetur
-                    ridiculus mus. Sed ullamcorper velit ut tempus dictum. Suspendisse quis dui feugiat, vehicula felis
-                    ut, fringilla massa.</Card.Text>
-                <Button variant='primary'>Gönderiye git →</Button>
-            </Card.Body>
-        </Card>
+        posts.loading ? <Loader className='text-center mb-4' type="Oval" color="#f5ba13"/>
+            : posts.posts.map(post => {
+                return (
+                    <Card key={post._id} className='mb-4'>
+                        <Card.Img variant='top' src='https://dummyimage.com/700x250/dee2e6/6c757d.jpg'/>
+                        <Card.Body>
+                            <Card.Subtitle className='text-muted small'>{post.createdAt}</Card.Subtitle>
+                            <Card.Title>{post.title}</Card.Title>
+                            <Card.Text>{post.content}</Card.Text>
+                            <Button onClick={handleSubmit} variant='primary'>Gönderiye git →</Button>
+                        </Card.Body>
+                    </Card>
+                );
+            })
     );
 }
 

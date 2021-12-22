@@ -1,4 +1,4 @@
-import {authService} from "../services/auth-service";
+import {authService} from "../../services/auth-service";
 import {
     LOGIN_REQUEST,
     LOGIN_SUCCESS,
@@ -9,7 +9,7 @@ import {
     LOGOUT_REQUEST,
     LOGOUT_SUCCESS,
     LOGOUT_FAILURE
-} from "./action-types";
+} from "./auth-action-types";
 
 function registerRequest() {
     return {

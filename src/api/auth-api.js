@@ -1,11 +1,7 @@
-import axios from "axios";
+import baseurl from "./baseurl";
 
-const api = axios.create({
-    baseURL: 'http://localhost:3000/api',
-});
-
-const register = (payload) => api.post('register', payload);
-const login = (payload) => api.post('login', payload);
+const register = (payload) => baseurl.post('register', payload);
+const login = (payload) => baseurl.post('login', payload);
 
 const apis = {
     register,

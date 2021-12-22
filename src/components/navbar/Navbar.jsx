@@ -4,11 +4,11 @@ import Login from "./Login";
 import Register from "./Register";
 import {useSelector} from "react-redux";
 import {useDispatch} from "react-redux";
-import {logout} from "../../redux/action-creators";
+import {logout} from "../../redux/authentication/auth-action-creators";
 
 function NavigationBar() {
     const dispatch = useDispatch();
-    const currentUser = useSelector((state) => state.authenticationReducer);
+    const currentUser = useSelector((state) => state.auth);
 
     const [showLoginModal, setShowLoginModal] = useState(false)
     const [showRegisterModal, setShowRegisterModal] = useState(false)
