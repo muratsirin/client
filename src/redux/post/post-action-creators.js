@@ -1,5 +1,5 @@
 import {postService} from "../../services/post-service";
-import {FETCH_POSTS_REQUEST, FETCH_POSTS_SUCCESS, FETCH_POSTS_FAILURE} from "./post-action-types";
+import {FETCH_POSTS_REQUEST, FETCH_POSTS_SUCCESS, FETCH_POSTS_FAILURE, ADD_POST_REQUEST, ADD_POST_SUCCESS, ADD_POST_FAILURE} from "./post-action-types";
 
 function fetchPostsRequest() {
     return {
@@ -33,4 +33,37 @@ function fetchPosts() {
     };
 }
 
-export {fetchPosts};
+function addPostRequest(){
+    return {
+        type: ADD_POST_REQUEST,
+    };
+}
+
+function addPostSuccess(post){
+    return {
+        type: ADD_POST_SUCCESS,
+        payload: post
+    };
+}
+
+function addPostFailure(error){
+    return {
+        type: ADD_POST_FAILURE,
+        payload: error
+    };
+}
+
+function addPost(post){
+    return function (dispatch){
+        dispatch(addPostRequest());
+        postService.addPost(post).then(resPost => {
+            dispatch(addPostSuccess(resPost));
+            dispatch(fetchPosts());
+        }).catch(error => {
+            dispatch(addPostFailure(error));
+        });
+    };
+}
+
+
+export {fetchPosts, addPost};

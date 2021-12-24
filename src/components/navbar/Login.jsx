@@ -1,12 +1,15 @@
 import React, {useState} from "react";
 import FormGroup from "../FormGroup";
-import {Button, Form, Modal} from "react-bootstrap";
+import {Form} from "react-bootstrap";
 import {formValidate, onSubmitValidation} from "../../utils/form-validate";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {login} from "../../redux/authentication/auth-action-creators";
+import ReUsableModal from "../ReUsableModal";
+import {hideLoginModal} from "../../redux/modal/modal-action-creators";
 
-function Login(props) {
+function Login() {
     const dispatch = useDispatch();
+    const modalSelector = useSelector((state) => state.modal);
     const [user, setUser] = useState({
         username: '',
         password: ''
@@ -16,6 +19,8 @@ function Login(props) {
         username: '',
         password: ''
     });
+
+    const handleHideLoginModal = () => dispatch(hideLoginModal());
 
     function handleChange(event) {
         const {name, value} = event.target;
@@ -41,33 +46,26 @@ function Login(props) {
             setErrors(onSubmitValidation(user));
         }
         dispatch(login(user));
+        dispatch(hideLoginModal());
+    }
 
+
+    function modalBody() {
+        return (
+            <Form>
+                <FormGroup label='Email Adresi' type='email' name='username' value={user.username}
+                           onChange={handleChange}
+                           placeholder='Email Adresiniz' error={errors.username}/>
+                <FormGroup label='Parola' type='password' name='password' value={user.password}
+                           onChange={handleChange}
+                           placeholder='Parolanız' error={errors.password}/>
+            </Form>
+        );
     }
 
     return (
-        <Modal show={props.show} onHide={props.hide} centered>
-            <Modal.Header closeButton>
-                <Modal.Title>Giriş Yap</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-                <Form>
-                    <FormGroup label='Email Adresi' type='email' name='username' value={user.username}
-                               onChange={handleChange}
-                               placeholder='Email Adresiniz' error={errors.username}/>
-                    <FormGroup label='Parola' type='password' name='password' value={user.password}
-                               onChange={handleChange}
-                               placeholder='Parolanız' error={errors.password}/>
-                </Form>
-            </Modal.Body>
-            <Modal.Footer>
-                <Button variant="secondary">
-                    İptal
-                </Button>
-                <Button variant="success" onClick={handleLogin}>
-                    Giriş Yap
-                </Button>
-            </Modal.Footer>
-        </Modal>
+        <ReUsableModal show={modalSelector.loginModal} hide={handleHideLoginModal} handleCancel={handleHideLoginModal}
+                       handleSubmit={handleLogin} btnText='Giriş Yap' title='Giriş Yap' body={modalBody()}/>
     )
 }
 

@@ -1,12 +1,15 @@
 import React, {useState} from "react";
-import {Button, Col, Form, Modal, Row} from "react-bootstrap";
+import {Col, Form, Row} from "react-bootstrap";
 import FormGroup from "../FormGroup";
 import {formValidate, onSubmitValidation} from "../../utils/form-validate";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {register} from "../../redux/authentication/auth-action-creators";
+import ReUsableModal from "../ReUsableModal";
+import {hideRegisterModal} from "../../redux/modal/modal-action-creators";
 
-function Register(props) {
+function Register() {
     const dispatch = useDispatch();
+    const modalSelector = useSelector((state) => state.modal);
     const [user, setUser] = useState({
         firstName: '',
         lastName: '',
@@ -20,67 +23,65 @@ function Register(props) {
         username: '',
         password: ''
     });
+    const handleHideRegisterModal = () => dispatch(hideRegisterModal());
 
-    function handleChange(event){
+    function handleChange(event) {
         const {name, value} = event.target;
 
-        setErrors((prevValue)=>{
-            return{
+        setErrors((prevValue) => {
+            return {
                 ...prevValue,
                 [name]: formValidate(name, value)
             }
         });
 
-        setUser((prevValue)=>{
+        setUser((prevValue) => {
             return {
                 ...prevValue,
-                [name] : value
+                [name]: value
             }
         });
     }
 
-    function handleRegister(event){
+    function handleRegister(event) {
         event.preventDefault();
 
-        if (onSubmitValidation(user)){
+        if (onSubmitValidation(user)) {
             setErrors(onSubmitValidation(user));
         }
 
         dispatch(register(user));
+        dispatch(hideRegisterModal());
+    }
+
+    function modalBody() {
+        return (
+            <Form>
+                <Row>
+                    <Col md={6} xs={6}>
+                        <FormGroup label='Ad' type='text' name='firstName' value={user.firstName}
+                                   onChange={handleChange}
+                                   placeholder='Adınız' error={errors.firstName}/>
+                    </Col>
+                    <Col md={6} xs={6}>
+                        <FormGroup label='Soyad' type='text' name='lastName' value={user.lastName}
+                                   onChange={handleChange}
+                                   placeholder='Soyadınız' error={errors.lastName}/>
+                    </Col>
+                </Row>
+                <FormGroup label='Email Adresi' type='email' name='username' value={user.username}
+                           onChange={handleChange}
+                           placeholder='Email Adresiniz' error={errors.username}/>
+                <FormGroup label='Parola' type='password' name='password' value={user.password} onChange={handleChange}
+                           placeholder='Parolanız' error={errors.password}/>
+            </Form>
+        );
     }
 
     return (
-        <Modal show={props.show} onHide={props.hide} centered>
-            <Modal.Header closeButton>
-                <Modal.Title>Kayıt Ol</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-                <Form>
-                    <Row>
-                        <Col md={6} xs={6}>
-                            <FormGroup label='Ad' type='text' name='firstName' value={user.firstName} onChange={handleChange}
-                                       placeholder='Adınız' error={errors.firstName}/>
-                        </Col>
-                        <Col md={6} xs={6}>
-                            <FormGroup label='Soyad' type='text' name='lastName' value={user.lastName} onChange={handleChange}
-                                       placeholder='Soyadınız' error={errors.lastName}/>
-                        </Col>
-                    </Row>
-                    <FormGroup label='Email Adresi' type='email' name='username' value={user.username} onChange={handleChange}
-                               placeholder='Email Adresiniz' error={errors.username}/>
-                    <FormGroup label='Parola' type='password' name='password' value={user.password} onChange={handleChange}
-                               placeholder='Parolanız' error={errors.password}/>
-                </Form>
-            </Modal.Body>
-            <Modal.Footer>
-                <Button variant="secondary" >
-                    İptal
-                </Button>
-                <Button variant="success" onClick={handleRegister}>
-                    Kayıt Ol
-                </Button>
-            </Modal.Footer>
-        </Modal>
+        <ReUsableModal show={modalSelector.registerModal} hide={handleHideRegisterModal}
+                       handleCancel={handleHideRegisterModal}
+                       handleSubmit={handleRegister} btnText='Kayıt Ol' title='Kayıt Ol' body={modalBody()}/>
     )
 }
 

@@ -1,32 +1,28 @@
-import React, {useState} from "react";
+import React from "react";
 import {Container, Nav, Navbar, NavDropdown} from "react-bootstrap";
 import Login from "./Login";
 import Register from "./Register";
 import {useSelector} from "react-redux";
 import {useDispatch} from "react-redux";
 import {logout} from "../../redux/authentication/auth-action-creators";
+import {showLoginModal, showRegisterModal} from "../../redux/modal/modal-action-creators";
 
 function NavigationBar() {
     const dispatch = useDispatch();
     const currentUser = useSelector((state) => state.auth);
 
-    const [showLoginModal, setShowLoginModal] = useState(false)
-    const [showRegisterModal, setShowRegisterModal] = useState(false)
+    const handleShowLoginModal = () => dispatch(showLoginModal());
+    const handleShowRegisterModal = () => dispatch(showRegisterModal());
 
-    const handleShowLogin = () => setShowLoginModal(true);
-    const handleHideLogin = () => setShowLoginModal(false);
-
-    const handleShowRegister = () => setShowRegisterModal(true);
-    const handleHideRegister = () => setShowRegisterModal(false);
 
     function navLinks(){
         if (!currentUser.isLoggedIn){
             return (
                 <Nav className='ms-auto'>
-                    <Nav.Link onClick={handleShowRegister}>Kayıt Ol</Nav.Link>
-                    <Nav.Link onClick={handleShowLogin}>Giriş Yap</Nav.Link>
-                    <Login show={showLoginModal} hide={handleHideLogin}/>
-                    <Register show={showRegisterModal} hide={handleHideRegister}/>
+                    <Nav.Link onClick={handleShowRegisterModal}>Kayıt Ol</Nav.Link>
+                    <Nav.Link onClick={handleShowLoginModal}>Giriş Yap</Nav.Link>
+                    <Login/>
+                    <Register/>
                 </Nav>
             );
         }

@@ -8,7 +8,7 @@ function FormGroup(props) {
             <Form.Group className='mb-3'>
                 <Form.Label>{props.label}</Form.Label>
                 <Form.Control type={props.type} name={props.name} value={props.value} onChange={props.onChange}
-                              placeholder={props.placeholder}/>
+                              placeholder={props.placeholder} as={props.as} rows={props.rows}/>
                 <span className='text-danger'>{props.error}</span>
             </Form.Group>
         </div>

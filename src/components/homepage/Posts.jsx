@@ -11,13 +11,6 @@ function Posts() {
         dispatch(fetchPosts());
     }, [])
 
-    function handleSubmit(event) {
-        event.preventDefault();
-        posts.posts.posts.map(post => {
-            console.log(post.title);
-        })
-    }
-
     return (
         posts.loading ? <Loader className='text-center mb-4' type="Oval" color="#f5ba13"/>
             : posts.posts.map(post => {
@@ -28,7 +21,7 @@ function Posts() {
                             <Card.Subtitle className='text-muted small'>{post.createdAt}</Card.Subtitle>
                             <Card.Title>{post.title}</Card.Title>
                             <Card.Text>{post.content}</Card.Text>
-                            <Button onClick={handleSubmit} variant='primary'>Gönderiye git →</Button>
+                            <Button variant='primary'>Gönderiye git →</Button>
                         </Card.Body>
                     </Card>
                 );
