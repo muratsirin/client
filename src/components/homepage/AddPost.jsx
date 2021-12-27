@@ -13,7 +13,7 @@ function AddPost() {
     const [post, setPost] = useState({
         title: '',
         content: '',
-        user: userSelector.currentUser.id,
+        user: userSelector.currentUser && userSelector.currentUser.id,
     });
 
     const handleHidePostModal = () => dispatch(hidePostModal());

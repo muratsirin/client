@@ -24,6 +24,18 @@ async function getPosts() {
     });
 }
 
+async function getPostWithID(id){
+    return await api.getPostWithID(id, {
+        method: 'GET',
+        headers: {
+            'Content-type': 'application/json',
+            authorization: 'Bearer' + localStorage.getItem('USER-TOKEN') && localStorage.getItem('USER-TOKEN')
+        }
+    }).then(res => {
+        return res.data.post;
+    });
+}
+
 function handleResponse(response) {
     const data = response.data.post;
     if (response.status !== 201) {
@@ -34,4 +46,4 @@ function handleResponse(response) {
     return data;
 }
 
-export const postService = {getPosts, addPost};
+export const postService = {getPosts, addPost, getPostWithID};

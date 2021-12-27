@@ -1,5 +1,12 @@
 import {postService} from "../../services/post-service";
-import {FETCH_POSTS_REQUEST, FETCH_POSTS_SUCCESS, FETCH_POSTS_FAILURE, ADD_POST_REQUEST, ADD_POST_SUCCESS, ADD_POST_FAILURE} from "./post-action-types";
+import {
+    FETCH_POSTS_REQUEST,
+    FETCH_POSTS_SUCCESS,
+    FETCH_POSTS_FAILURE,
+    ADD_POST_REQUEST,
+    ADD_POST_SUCCESS,
+    ADD_POST_FAILURE, GET_POST_REQUEST, GET_POST_SUCCESS, GET_POST_FAILURE,
+} from "./post-action-types";
 
 function fetchPostsRequest() {
     return {
@@ -33,28 +40,28 @@ function fetchPosts() {
     };
 }
 
-function addPostRequest(){
+function addPostRequest() {
     return {
         type: ADD_POST_REQUEST,
     };
 }
 
-function addPostSuccess(post){
+function addPostSuccess(post) {
     return {
         type: ADD_POST_SUCCESS,
         payload: post
     };
 }
 
-function addPostFailure(error){
+function addPostFailure(error) {
     return {
         type: ADD_POST_FAILURE,
         payload: error
     };
 }
 
-function addPost(post){
-    return function (dispatch){
+function addPost(post) {
+    return function (dispatch) {
         dispatch(addPostRequest());
         postService.addPost(post).then(resPost => {
             dispatch(addPostSuccess(resPost));
@@ -65,5 +72,36 @@ function addPost(post){
     };
 }
 
+function fetchPostRequest() {
+    return {
+        type: GET_POST_REQUEST,
+    };
+}
 
-export {fetchPosts, addPost};
+function fetchPostSuccess(post) {
+    return {
+        type: GET_POST_SUCCESS,
+        payload: post,
+    };
+}
+
+function fetchPostFailure(error) {
+    return {
+        type: GET_POST_FAILURE,
+        payload: error,
+    };
+}
+
+function fetchPostWithID(id) {
+    return async function (dispatch) {
+        dispatch(fetchPostRequest());
+        await postService.getPostWithID(id).then(post => {
+            dispatch(fetchPostSuccess(post));
+        }).catch(error => {
+            dispatch(fetchPostFailure(error));
+        });
+    };
+}
+
+
+export {fetchPosts, addPost, fetchPostWithID};

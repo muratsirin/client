@@ -6,21 +6,18 @@ import {useSelector} from "react-redux";
 import {useDispatch} from "react-redux";
 import {logout} from "../../redux/authentication/auth-action-creators";
 import {showLoginModal, showRegisterModal} from "../../redux/modal/modal-action-creators";
+import {Link} from "react-router-dom";
 
 function NavigationBar() {
     const dispatch = useDispatch();
     const currentUser = useSelector((state) => state.auth);
 
-    const handleShowLoginModal = () => dispatch(showLoginModal());
-    const handleShowRegisterModal = () => dispatch(showRegisterModal());
-
-
-    function navLinks(){
-        if (!currentUser.isLoggedIn){
+    function navLinks() {
+        if (!currentUser.isLoggedIn) {
             return (
                 <Nav className='ms-auto'>
-                    <Nav.Link onClick={handleShowRegisterModal}>Kayıt Ol</Nav.Link>
-                    <Nav.Link onClick={handleShowLoginModal}>Giriş Yap</Nav.Link>
+                    <Nav.Link onClick={() => dispatch(showRegisterModal())}>Kayıt Ol</Nav.Link>
+                    <Nav.Link onClick={() => dispatch(showLoginModal())}>Giriş Yap</Nav.Link>
                     <Login/>
                     <Register/>
                 </Nav>
@@ -28,19 +25,15 @@ function NavigationBar() {
         }
         return (
             <Nav className='ms-auto'>
-                <Nav.Link onClick={handleLogout}>Çıkış Yap</Nav.Link>
+                <Nav.Link onClick={() => dispatch(logout())}>Çıkış Yap</Nav.Link>
             </Nav>
         );
     }
 
-    function handleLogout(event){
-        event.preventDefault();
-        dispatch(logout());
-    }
     return (
         <Navbar bg='dark' collapseOnSelect expand='lg' variant='dark'>
             <Container>
-                <Navbar.Brand href='#'>Blog Post</Navbar.Brand>
+                <Link to='/'><Navbar.Brand>Blog Post</Navbar.Brand></Link>
                 <Navbar.Toggle aria-controls='navLinks'/>
                 <Navbar.Collapse id='navLinks'>
                     {navLinks()}

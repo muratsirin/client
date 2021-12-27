@@ -3,7 +3,10 @@ import {
     FETCH_POSTS_SUCCESS,
     FETCH_POSTS_FAILURE,
     ADD_POST_REQUEST,
-    ADD_POST_SUCCESS, ADD_POST_FAILURE
+    ADD_POST_SUCCESS,
+    ADD_POST_FAILURE,
+    GET_POST_REQUEST,
+    GET_POST_SUCCESS, GET_POST_FAILURE
 } from "./post-action-types";
 
 const initState = {
@@ -17,6 +20,7 @@ function postReducer(state = initState, action) {
     switch (action.type) {
         case FETCH_POSTS_REQUEST:
         case ADD_POST_REQUEST:
+        case GET_POST_REQUEST:
             return {
                 ...state,
                 loading: true,
@@ -27,18 +31,16 @@ function postReducer(state = initState, action) {
                 posts: action.payload,
                 loading: false,
             };
-        case FETCH_POSTS_FAILURE:
-            return {
-                ...state,
-                error: action.payload,
-            };
         case ADD_POST_SUCCESS:
+        case GET_POST_SUCCESS:
             return {
                 ...state,
                 post: action.payload,
                 loading: false
             };
+        case FETCH_POSTS_FAILURE:
         case ADD_POST_FAILURE:
+        case GET_POST_FAILURE:
             return {
                 ...state,
                 error: action.payload

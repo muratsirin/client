@@ -1,4 +1,5 @@
 import React from "react";
+import {BrowserRouter as Router, Routes, Route} from "react-router-dom"
 import NavigationBar from "./navbar/Navbar";
 import Home from "./homepage/Home";
 import {Fab} from "@material-ui/core";
@@ -6,10 +7,10 @@ import EditIcon from '@mui/icons-material/Edit';
 import AddPost from "./homepage/AddPost";
 import {useDispatch} from "react-redux";
 import {showPostModal} from "../redux/modal/modal-action-creators";
+import PostPage from "./postpage/PostPage";
 
-function App(){
+function App() {
     const dispatch = useDispatch();
-
     const fabStyle = {
         margin: 0,
         top: 'auto',
@@ -20,17 +21,22 @@ function App(){
 
     }
 
-    const handleShowPostModal = () => dispatch(showPostModal());
-
-    return(
+    return (
         <div>
-            <NavigationBar/>
-            <Home/>
-            <Fab onClick={handleShowPostModal} style={fabStyle} className='text-center' color="primary" aria-label="edit">
+            <Router>
+                <NavigationBar/>
+                <Routes>
+                    <Route path='/' exact element={<Home/>}/>
+                    <Route path='/post/:id' exact element={<PostPage/>}/>
+                </Routes>
+            </Router>
+            <Fab onClick={() => dispatch(showPostModal())} style={fabStyle} className='text-center' color="primary"
+                 aria-label="edit">
                 <EditIcon/>
             </Fab>
             <AddPost/>
         </div>
     )
 }
+
 export default App;
