@@ -5,7 +5,7 @@ import {
     FETCH_POSTS_FAILURE,
     ADD_POST_REQUEST,
     ADD_POST_SUCCESS,
-    ADD_POST_FAILURE, GET_POST_REQUEST, GET_POST_SUCCESS, GET_POST_FAILURE,
+    ADD_POST_FAILURE, GET_POST_REQUEST, GET_POST_SUCCESS, GET_POST_FAILURE, ADD_COMMENT_REQUEST,
 } from "./post-action-types";
 
 function fetchPostsRequest() {
@@ -32,7 +32,6 @@ function fetchPosts() {
     return function (dispatch) {
         dispatch(fetchPostsRequest());
         postService.getPosts().then(posts => {
-            console.log(posts);
             dispatch(fetchPostsSuccess(posts));
         }).catch(error => {
             dispatch(fetchPostsFailure(error));
@@ -103,5 +102,36 @@ function fetchPostWithID(id) {
     };
 }
 
+function addCommentRequest(){
+    return {
+        type: ADD_COMMENT_REQUEST,
+    };
+}
 
-export {fetchPosts, addPost, fetchPostWithID};
+function addCommentSuccess(post){
+    return {
+        type: ADD_POST_SUCCESS,
+        payload: post
+    };
+}
+
+function addCommentFailure(error){
+    return {
+        type: ADD_POST_FAILURE,
+        payload: error
+    };
+}
+
+function addComment(id, comment){
+    return function (dispatch){
+        dispatch(addCommentRequest());
+        postService.addComment(id, comment).then(post => {
+            dispatch(addCommentSuccess(post));
+        }).catch(error => {
+            dispatch(addCommentFailure(error));
+        });
+    };
+}
+
+
+export {fetchPosts, addPost, fetchPostWithID, addComment};

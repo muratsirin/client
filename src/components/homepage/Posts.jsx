@@ -1,17 +1,13 @@
-import React, {useEffect} from "react";
+import React from "react";
 import {Button, Card} from "react-bootstrap";
-import {useDispatch, useSelector} from "react-redux";
-import {fetchPosts, fetchPostWithID} from "../../redux/post/post-action-creators";
+import {fetchPostWithID} from "../../redux/post/post-action-creators";
 import Loader from 'react-loader-spinner';
 import {Link} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
 
 function Posts() {
     const dispatch = useDispatch();
     const postSelector = useSelector((state) => state.post);
-
-    useEffect(() => {
-        dispatch(fetchPosts());
-    }, []);
 
     return (
         postSelector.loading ? <Loader className='text-center mb-4' type="Oval" color="#f5ba13"/>

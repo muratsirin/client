@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {BrowserRouter as Router, Routes, Route} from "react-router-dom"
 import NavigationBar from "./navbar/Navbar";
 import Home from "./homepage/Home";
@@ -8,9 +8,15 @@ import AddPost from "./homepage/AddPost";
 import {useDispatch} from "react-redux";
 import {showPostModal} from "../redux/modal/modal-action-creators";
 import PostPage from "./postpage/PostPage";
+import {fetchPosts} from "../redux/post/post-action-creators";
 
 function App() {
     const dispatch = useDispatch();
+
+    useEffect(()=>{
+        dispatch(fetchPosts());
+    },[]);
+
     const fabStyle = {
         margin: 0,
         top: 'auto',
