@@ -11,7 +11,7 @@ import {
 
 const initState = {
     posts: [],
-    post:'',
+    post: '',
     loading: true,
     error: ''
 };
@@ -26,13 +26,17 @@ function postReducer(state = initState, action) {
                 ...state,
                 loading: true,
             };
+        case ADD_POST_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+            };
         case FETCH_POSTS_SUCCESS:
             return {
                 ...state,
-                posts: action.payload,
                 loading: false,
+                posts: action.payload,
             };
-        case ADD_POST_SUCCESS:
         case GET_POST_SUCCESS:
         case ADD_COMMENT_SUCCESS:
             return {

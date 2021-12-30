@@ -99,9 +99,9 @@ function fetchPostFailure(error) {
 }
 
 function fetchPostWithID(id) {
-    return async function (dispatch) {
+    return function (dispatch) {
         dispatch(fetchPostRequest());
-        await postService.getPostWithID(id).then(post => {
+        postService.getPostWithID(id).then(post => {
             dispatch(fetchPostSuccess(post));
         }).catch(error => {
             dispatch(fetchPostFailure(error));

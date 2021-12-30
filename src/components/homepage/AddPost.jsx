@@ -37,7 +37,7 @@ function AddPost() {
 
     function modalBody() {
         return (
-            <Form encType='multipart/form-data'>
+            <Form>
                 <FormGroup label='Resim seç' type='file' name='image'
                            onChange={(event) => setImage(event.target.files[0])}/>
                 <FormGroup label='Gönderi Başlık' type='text' name='title' value={post.title}

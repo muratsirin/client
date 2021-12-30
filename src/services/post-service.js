@@ -4,7 +4,10 @@ function addPost(post, image){
     const formData = new FormData();
     formData.append('title', post.title);
     formData.append('content', post.content);
-    formData.append('image', image);
+    formData.append('user', post.user);
+    if (image){
+        formData.append('image', image);
+    }
     return api.addPost(formData, {
         method: 'POST',
         headers: {

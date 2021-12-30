@@ -4,6 +4,7 @@ import {fetchPostWithID} from "../../redux/post/post-action-creators";
 import Loader from 'react-loader-spinner';
 import {Link} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
+import PostImage from "../Image";
 
 function Posts() {
     const dispatch = useDispatch();
@@ -14,13 +15,14 @@ function Posts() {
             : postSelector.posts.map(post => {
                 return (
                     <Card key={post._id} className='mb-4'>
-                        <Card.Img variant='top' src='https://dummyimage.com/700x250/dee2e6/6c757d.jpg'/>
+                        {post.image &&
+                        <PostImage imageData={post.image.img.data} mimeType={post.image.img.mimeType}/>}
                         <Card.Body>
                             <Card.Subtitle className='text-muted small'>{post.createdAt}</Card.Subtitle>
                             <Card.Title>{post.title}</Card.Title>
                             <Card.Text>{post.content}</Card.Text>
                             <Link to={'/post/' + post._id}>
-                                <Button onClick={() => dispatch(fetchPostWithID(post._id))}
+                                <Button onClick={ async () => await dispatch(fetchPostWithID(post._id))}
                                         variant='primary'>Gönderiyi gör</Button>
                             </Link>
                         </Card.Body>
