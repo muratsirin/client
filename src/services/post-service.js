@@ -1,12 +1,17 @@
 import api from '../api/post-api';
 
-function addPost(post){
-    return api.addPost(post, {
+function addPost(post, image){
+    const formData = new FormData();
+    formData.append('title', post.title);
+    formData.append('content', post.content);
+    formData.append('image', image);
+    return api.addPost(formData, {
         method: 'POST',
         headers: {
-            'Content-type': 'application/json',
+            'Content-Type': 'multipart/form-data',
             authorization: 'Bearer' + localStorage.getItem('USER-TOKEN') && localStorage.getItem('USER-TOKEN')
-        }
+        },
+        data: formData,
     }).then(handleResponse).then(post => {
         return post;
     });
@@ -20,7 +25,6 @@ function addComment(id, comment){
             authorization: 'Bearer' + localStorage.getItem('USER-TOKEN') && localStorage.getItem('USER-TOKEN')
         }
     }).then(handleResponse).then(post => {
-        console.log(comment)
         return post;
     });
 }

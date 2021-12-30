@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import {Button, Card, Form} from "react-bootstrap";
 import {useDispatch, useSelector} from "react-redux";
 import FormGroup from "../FormGroup";
-import {addComment} from "../../redux/post/post-action-creators";
+import {addComment, fetchPostWithID} from "../../redux/post/post-action-creators";
 
 function Comments() {
     const dispatch = useDispatch();
@@ -14,11 +14,6 @@ function Comments() {
         user: ''
     });
 
-    function handleSubmit(event) {
-        console.log(comment)
-        dispatch(addComment(postID, comment));
-    }
-
     return (
         <div>
             <Form>
@@ -26,7 +21,7 @@ function Comments() {
                            onChange={(event) => setComment({comment: event.target.value, user: userSelector.currentUser && userSelector.currentUser.id})}
                            placeholder='Yorum yaz...' as='textarea' rows={3}/>
                 <div className='text-end'>
-                    <Button onClick={handleSubmit} variant='success'>Paylaş</Button>
+                    <Button onClick={()=> dispatch(addComment(postID, comment))} variant='success'>Paylaş</Button>
                 </div>
             </Form>
 

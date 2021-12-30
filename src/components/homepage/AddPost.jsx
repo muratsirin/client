@@ -15,6 +15,7 @@ function AddPost() {
         content: '',
         user: userSelector.currentUser && userSelector.currentUser.id,
     });
+    const [image, setImage] = useState('');
 
     const handleHidePostModal = () => dispatch(hidePostModal());
 
@@ -31,13 +32,14 @@ function AddPost() {
 
     function handleSubmit(event) {
         event.preventDefault();
-        console.log('ObjectId('+userSelector.currentUser.id+')');
-        dispatch(addPost(post));
+        dispatch(addPost(post, image));
     }
 
     function modalBody() {
         return (
-            <Form>
+            <Form encType='multipart/form-data'>
+                <FormGroup label='Resim seç' type='file' name='image'
+                           onChange={(event) => setImage(event.target.files[0])}/>
                 <FormGroup label='Gönderi Başlık' type='text' name='title' value={post.title}
                            onChange={handleChange}
                            placeholder='Başlık'/>
