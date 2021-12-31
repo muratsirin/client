@@ -2,7 +2,8 @@ import React, {useState} from "react";
 import {Button, Card, Form} from "react-bootstrap";
 import {useDispatch, useSelector} from "react-redux";
 import FormGroup from "../FormGroup";
-import {addComment, fetchPostWithID} from "../../redux/post/post-action-creators";
+import {addComment} from "../../redux/post/post-action-creators";
+import CardSubtitle from "../CardSubtitle";
 
 function Comments() {
     const dispatch = useDispatch();
@@ -25,7 +26,7 @@ function Comments() {
                 </div>
             </Form>
 
-            {comments.length ?
+            {comments.length >1 ?
                 <div>
                     <h4>Yorumlar</h4>
                     <Card className='mb-4'>
@@ -33,14 +34,9 @@ function Comments() {
                             return (
                                 <Card.Body key={comment._id}>
                                     <Card.Text>{comment.comment}</Card.Text>
-                                    <Card.Subtitle className='text-end small'>
-                                        <div>
-                                            {comment.createdAt}
-                                            <h6>{comment.user.firstName + ' ' + comment.user.lastName}</h6>
-                                        </div>
-                                    </Card.Subtitle>
-                                    {comments.length > 1 &&
-                                    <hr/> }
+                                    <CardSubtitle createdAt={comment.createdAt} updatedAt={comment.updatedAt}
+                                                  firstName={comment.user.firstName} lastName={comment.user.lastName}/>
+                                    <hr/>
                                 </Card.Body>
                             );
                         })}

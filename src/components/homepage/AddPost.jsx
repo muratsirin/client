@@ -4,16 +4,16 @@ import FormGroup from "../FormGroup";
 import ReUsableModal from "../ReUsableModal";
 import {useDispatch, useSelector} from "react-redux";
 import {hidePostModal} from "../../redux/modal/modal-action-creators";
-import {addPost, fetchPosts} from "../../redux/post/post-action-creators";
+import {addPost} from "../../redux/post/post-action-creators";
 
 function AddPost() {
     const dispatch = useDispatch();
-    const userSelector = useSelector((state) => state.auth);
-    const modalSelector = useSelector((state) => state.modal);
+    const currentUser = useSelector((state) => state.auth.currentUser);
+    const postModal = useSelector((state) => state.modal.postModal);
     const [post, setPost] = useState({
         title: '',
         content: '',
-        user: userSelector.currentUser && userSelector.currentUser.id,
+        user: currentUser && currentUser.id,
     });
     const [image, setImage] = useState('');
 
@@ -51,7 +51,7 @@ function AddPost() {
     }
 
     return (
-        <ReUsableModal show={modalSelector.postModal} hide={handleHidePostModal} handleCancel={handleHidePostModal} handleSubmit={handleSubmit}
+        <ReUsableModal show={postModal} hide={handleHidePostModal} handleCancel={handleHidePostModal} handleSubmit={handleSubmit}
                        btnText='Paylaş' title='Yeni gönderi oluştur' body={modalBody()}/>
     )
 }

@@ -14,7 +14,10 @@ function App() {
     const dispatch = useDispatch();
 
     useEffect(()=>{
-        dispatch(fetchPosts());
+        async function getPosts(){
+            await dispatch(fetchPosts());
+        }
+        getPosts();
     },[]);
 
     const fabStyle = {

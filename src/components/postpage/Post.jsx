@@ -5,18 +5,19 @@ import {useParams} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {fetchPostWithID} from "../../redux/post/post-action-creators";
 import PostImage from "../Image";
+import CardSubtitle from "../CardSubtitle";
 
 function Post() {
     const dispatch = useDispatch();
     const post = useSelector(state => state.post.post);
-    const author = useSelector(state => state.post.post.user);
     const params = useParams();
 
-    useEffect(async () => {
-        if (params.id !== post._id) {
+    useEffect(()=>{
+        async function fetchPost(){
             await dispatch(fetchPostWithID(params.id));
         }
-    }, []);
+        fetchPost();
+    }, [params.id]);
 
     return (
         <div className='my-4'>
@@ -26,12 +27,8 @@ function Post() {
                 <PostImage imageData={post.image.img.data} mimeType={post.image.img.mimeType}/>}
                 <Card.Body>
                     <Card.Text>{post.content}</Card.Text>
-                    <Card.Subtitle className='text-end small'>
-                        <div>
-                            {post.updatedAt ? post.updatedAt : post.createdAt}
-                            {/*<h6>{author.firstName + ' ' + author.lastName}</h6>*/}
-                        </div>
-                    </Card.Subtitle>
+                    <CardSubtitle createdAt={post.createdAt} updatedAt={post.updatedAt}
+                                  firstName={post.user.firstName} lastName={post.user.lastName}/>
                 </Card.Body>
             </Card>
         </div>
