@@ -5,9 +5,9 @@ import Home from "./homepage/Home";
 import {Fab} from "@material-ui/core";
 import EditIcon from '@mui/icons-material/Edit';
 import AddPost from "./homepage/AddPost";
-import {useDispatch} from "react-redux";
 import {showPostModal} from "../redux/modal/modal-action-creators";
 import PostPage from "./postpage/PostPage";
+import {useDispatch} from "react-redux";
 import {fetchPosts} from "../redux/post/post-action-creators";
 
 function App() {

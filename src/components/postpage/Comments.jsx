@@ -1,19 +1,38 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Button, Card, Form} from "react-bootstrap";
 import {useDispatch, useSelector} from "react-redux";
 import FormGroup from "../FormGroup";
 import {addComment} from "../../redux/post/post-action-creators";
 import CardSubtitle from "../CardSubtitle";
+import ReUsablePagination from "../ReUsablePagination";
 
 function Comments() {
     const dispatch = useDispatch();
     const userSelector = useSelector((state) => state.auth);
     const postID = useSelector(state => state.post.post._id);
-    const comments = useSelector((state) => state.post.post.comments);
+    const postSelector = useSelector((state) => state.post.post);
+    const perPage = 10;
+    const [pageCount, setPageCount] = useState(0);
+    const [comments, setComments] = useState(useSelector((state) => state.post.post.comments)) ;
+    const [offset, setOffset] = useState(0);
     const [comment, setComment] = useState({
         comment: '',
         user: ''
     });
+
+    useEffect(() => {
+        setComments(postSelector.comments.slice(offset, offset + perPage));
+        setPageCount(Math.ceil(postSelector.comments.length / perPage));
+    }, [offset, perPage, postSelector]);
+
+    const handlePageChange = (event) => {
+        const newOffset = (event.selected * perPage) % postSelector.comments.length;
+        setOffset(newOffset);
+    }
+
+    const handleAddPost =()=>{
+        dispatch(addComment(postID, comment));
+    }
 
     return (
         <div>
@@ -22,7 +41,7 @@ function Comments() {
                            onChange={(event) => setComment({comment: event.target.value, user: userSelector.currentUser && userSelector.currentUser.id})}
                            placeholder='Yorum yaz...' as='textarea' rows={3}/>
                 <div className='text-end'>
-                    <Button onClick={()=> dispatch(addComment(postID, comment))} variant='success'>Paylaş</Button>
+                    <Button onClick={handleAddPost} variant='success'>Paylaş</Button>
                 </div>
             </Form>
 
@@ -42,6 +61,7 @@ function Comments() {
                         })}
                     </Card>
                 </div> : <h5 className='text-center'>Bu gönderiye ait yorum bulunamadı.</h5>}
+            <ReUsablePagination pageCount={pageCount} onPageChange={handlePageChange}/>
         </div>
     )
 }
