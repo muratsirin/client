@@ -7,6 +7,7 @@ import {useDispatch} from "react-redux";
 import {logout} from "../../redux/authentication/auth-action-creators";
 import {showLoginModal, showRegisterModal} from "../../redux/modal/modal-action-creators";
 import {Link} from "react-router-dom";
+import SearchBar from "../SearchBar";
 
 function NavigationBar() {
     const dispatch = useDispatch();

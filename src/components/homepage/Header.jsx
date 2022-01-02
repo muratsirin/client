@@ -1,5 +1,6 @@
 import React from "react";
 import {Container} from "react-bootstrap";
+import SearchBar from "../SearchBar";
 
 function Header(){
     return (
@@ -7,6 +8,7 @@ function Header(){
             <Container>
                 <div className='text-center my-5'>
                     <h1 className='fw-bolder'>Merhaba</h1>
+                    <SearchBar/>
                 </div>
             </Container>
         </header>

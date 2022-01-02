@@ -9,6 +9,7 @@ import ReUsablePagination from "../ReUsablePagination";
 
 function Posts() {
     const postSelector = useSelector((state) => state.post);
+    const searchFilter = useSelector(state => state.post.searchFilter);
     const perPage = 5;
     const [pageCount, setPageCount] = useState(0);
     const [posts, setPosts] = useState(postSelector.posts);
@@ -27,9 +28,15 @@ function Posts() {
     return (
         postSelector.loading ? <Loader className='text-center mb-4' type="Oval" color="#f5ba13"/>
             : <div>
-                {posts.map(post => {
+                {posts.filter(post => {
+                    if (searchFilter === '') {
+                        return post;
+                    } else if (post.title.toLowerCase().includes(searchFilter.toLowerCase()) || post.content.toLowerCase().includes(searchFilter.toLowerCase())) {
+                        return post;
+                    }
+                }).map((post, index) => {
                     return (
-                        <Card key={post._id} className='mb-4'>
+                        <Card key={index} className='mb-4'>
                             {post.image &&
                             <PostImage imageData={post.image.img.data} mimeType={post.image.img.mimeType}/>}
                             <Card.Body>
@@ -45,7 +52,7 @@ function Posts() {
                     );
                 })}
 
-            <ReUsablePagination pageCount={pageCount} onPageChange={handlePageChange}/>
+                <ReUsablePagination pageCount={pageCount} onPageChange={handlePageChange}/>
             </div>
     );
 }

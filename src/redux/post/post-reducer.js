@@ -6,12 +6,18 @@ import {
     ADD_POST_SUCCESS,
     ADD_POST_FAILURE,
     GET_POST_REQUEST,
-    GET_POST_SUCCESS, GET_POST_FAILURE, ADD_COMMENT_REQUEST, ADD_COMMENT_SUCCESS, ADD_COMMENT_FAILURE
+    GET_POST_SUCCESS,
+    GET_POST_FAILURE,
+    ADD_COMMENT_REQUEST,
+    ADD_COMMENT_SUCCESS,
+    ADD_COMMENT_FAILURE,
+    CHANGE_SEARCH_FILTER
 } from "./post-action-types";
 
 const initState = {
     posts: [],
     post: '',
+    searchFilter: '',
     loading: true,
     error: ''
 };
@@ -51,6 +57,11 @@ function postReducer(state = initState, action) {
             return {
                 ...state,
                 error: action.payload
+            };
+        case CHANGE_SEARCH_FILTER:
+            return {
+                ...state,
+                searchFilter: action.payload
             };
         default:
             return state;

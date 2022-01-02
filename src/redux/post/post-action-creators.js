@@ -11,7 +11,7 @@ import {
     GET_POST_FAILURE,
     ADD_COMMENT_REQUEST,
     ADD_COMMENT_SUCCESS,
-    ADD_COMMENT_FAILURE,
+    ADD_COMMENT_FAILURE, CHANGE_SEARCH_FILTER,
 } from "./post-action-types";
 
 function fetchPostsRequest() {
@@ -140,5 +140,12 @@ function addComment(id, comment){
     };
 }
 
+function changeSearchFilter(searchFilter){
+        return {
+            type: CHANGE_SEARCH_FILTER,
+            payload: searchFilter,
+        };
+}
 
-export {fetchPosts, addPost, fetchPostWithID, addComment};
+
+export {fetchPosts, addPost, fetchPostWithID, addComment, changeSearchFilter};
