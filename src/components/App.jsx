@@ -7,18 +7,20 @@ import EditIcon from '@mui/icons-material/Edit';
 import AddPost from "./homepage/AddPost";
 import {showPostModal} from "../redux/modal/modal-action-creators";
 import PostPage from "./postpage/PostPage";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {fetchPosts} from "../redux/post/post-action-creators";
 
 function App() {
     const dispatch = useDispatch();
+    const userSelector = useSelector(state => state.auth);
 
-    useEffect(()=>{
-        async function getPosts(){
+    useEffect(() => {
+        async function getPosts() {
             await dispatch(fetchPosts());
         }
+
         getPosts();
-    },[]);
+    }, []);
 
     const fabStyle = {
         margin: 0,
@@ -39,10 +41,11 @@ function App() {
                     <Route path='/post/:id' exact element={<PostPage/>}/>
                 </Routes>
             </Router>
+            {userSelector.isLoggedIn &&
             <Fab onClick={() => dispatch(showPostModal())} style={fabStyle} className='text-center' color="primary"
                  aria-label="edit">
                 <EditIcon/>
-            </Fab>
+            </Fab>}
             <AddPost/>
         </div>
     )

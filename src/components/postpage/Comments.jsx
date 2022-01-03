@@ -36,16 +36,16 @@ function Comments() {
 
     return (
         <div>
-            <Form>
+            {userSelector.isLoggedIn ? <Form>
                 <FormGroup type='text' name='comment' value={comment.comment}
                            onChange={(event) => setComment({comment: event.target.value, user: userSelector.currentUser && userSelector.currentUser.id})}
                            placeholder='Yorum yaz...' as='textarea' rows={3}/>
                 <div className='text-end'>
                     <Button onClick={handleAddPost} variant='success'>Paylaş</Button>
                 </div>
-            </Form>
+            </Form> : <p className='text-center'>Yorum yazabilmek için giriş yapmalısınız.</p>}
 
-            {comments.length >1 ?
+            {comments?.length ?
                 <div>
                     <h4>Yorumlar</h4>
                     <Card className='mb-4'>

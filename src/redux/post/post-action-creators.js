@@ -102,6 +102,7 @@ function fetchPostWithID(id) {
     return function (dispatch) {
         dispatch(fetchPostRequest());
         postService.getPostWithID(id).then(post => {
+            console.log(post)
             dispatch(fetchPostSuccess(post));
         }).catch(error => {
             dispatch(fetchPostFailure(error));

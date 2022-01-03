@@ -1,5 +1,3 @@
-import jwt from 'jsonwebtoken';
-
 import {
     LOGIN_REQUEST,
     LOGIN_SUCCESS,
@@ -12,18 +10,10 @@ import {
     LOGOUT_FAILURE
 } from "./auth-action-types";
 
-function isValidToken(token) {
-    const decodedToken = jwt.decode(token);
-
-    return new Date(decodedToken.exp * 1000) > new Date() ? decodedToken : null;
-}
-
-const currentUser = localStorage.getItem('USER-TOKEN');
 const initState = {
-    currentUser: currentUser && isValidToken(currentUser),
-    token: currentUser && currentUser,
-    loading: !currentUser && true,
-    isLoggedIn: currentUser && true,
+    currentUser: '',
+    loading: false,
+    isLoggedIn: false,
 };
 
 function authenticationReducer(state = initState, action) {
@@ -51,8 +41,7 @@ function authenticationReducer(state = initState, action) {
             return {
                 ...state,
                 loading: false,
-                currentUser: isValidToken(action.payload.token),
-                token: action.payload.token,
+                currentUser: action.payload,
                 isLoggedIn: true,
             };
         case LOGOUT_SUCCESS:
@@ -60,13 +49,10 @@ function authenticationReducer(state = initState, action) {
                 ...state,
                 loading: false,
                 isLoggedIn: false,
-                currentUser: null,
-                token: '',
+                currentUser: '',
             };
         default:
-            return {
-                ...state
-            };
+            return state;
     }
 }
 

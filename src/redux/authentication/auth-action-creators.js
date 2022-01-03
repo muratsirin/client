@@ -17,12 +17,10 @@ function registerRequest() {
     };
 }
 
-function registerSuccess(token) {
+function registerSuccess(user) {
     return {
         type: REGISTER_SUCCESS,
-        payload: {
-            token,
-        },
+        payload: user,
     };
 }
 
@@ -50,12 +48,10 @@ function loginRequest() {
     };
 }
 
-function loginSuccess(token) {
+function loginSuccess(user) {
     return {
         type: LOGIN_SUCCESS,
-        payload: {
-            token,
-        },
+        payload: user,
     };
 }
 
@@ -69,8 +65,8 @@ function loginFailure(error) {
 function login(user) {
     return function (dispatch) {
         dispatch(loginRequest());
-        authService.login(user).then(token => {
-            dispatch(loginSuccess(token));
+        authService.login(user).then(user => {
+            dispatch(loginSuccess(user));
         }).catch(error => {
             dispatch(loginFailure(error));
         });
@@ -101,7 +97,6 @@ function logout() {
         authService.logout();
         if (!localStorage.getItem('USER')) {
             dispatch(logoutSuccess());
-
         }
         dispatch(logoutFailure());
     };

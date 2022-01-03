@@ -2,7 +2,7 @@ import React from "react";
 import Header from "./Header";
 import {Col, Container, Row} from "react-bootstrap";
 import Posts from "./Posts";
-import Categories from "./Categories";
+import MostPopularPosts from "../MostPopularPosts";
 
 function Home(){
     return (
@@ -14,7 +14,7 @@ function Home(){
                         <Posts/>
                     </Col>
                     <Col lg={2}>
-                        <Categories/>
+                        <MostPopularPosts/>
                     </Col>
                 </Row>
             </Container>

@@ -37,7 +37,7 @@ async function getPosts() {
         method: 'GET',
         headers: {
             'Content-type': 'application/json',
-            authorization: 'Bearer' + localStorage.getItem('USER-TOKEN') && localStorage.getItem('USER-TOKEN')
+            // authorization: 'Bearer' + localStorage.getItem('USER-TOKEN') && localStorage.getItem('USER-TOKEN')
         }
     }).then(res =>{
         return res.data.posts;

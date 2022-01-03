@@ -5,11 +5,7 @@ function register(user) {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
     }).then(handleResponse).then(user => {
-        if (user.token) {
-            localStorage.setItem('USER-token', user.token);
-        }
-
-        return user.token;
+        return user;
     });
 }
 
@@ -18,11 +14,7 @@ function login(user) {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
     }).then(handleResponse).then(user => {
-        if (user.token) {
-            localStorage.setItem('USER-TOKEN', user.token);
-        }
-
-        return user.token;
+        return user;
     });
 }
 
