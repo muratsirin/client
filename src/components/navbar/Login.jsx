@@ -1,11 +1,11 @@
 import React, {useState} from "react";
-import FormGroup from "../FormGroup";
+import FormGroup from "../reusable/FormGroup";
 import {Form} from "react-bootstrap";
 import {formValidate, onSubmitValidation} from "../../utils/form-validate";
 import {useDispatch, useSelector} from "react-redux";
-import {login} from "../../redux/authentication/auth-action-creators";
-import ReUsableModal from "../ReUsableModal";
+import ReUsableModal from "../reusable/ReUsableModal";
 import {hideLoginModal} from "../../redux/modal/modal-action-creators";
+import {login} from "../../redux/authentication/actions/login";
 
 function Login() {
     const dispatch = useDispatch();
@@ -14,12 +14,10 @@ function Login() {
         username: '',
         password: ''
     });
-
     const [errors, setErrors] = useState({
         username: '',
         password: ''
     });
-
     const handleHideLoginModal = () => dispatch(hideLoginModal());
 
     function handleChange(event) {

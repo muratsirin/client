@@ -8,7 +8,7 @@ import AddPost from "./homepage/AddPost";
 import {showPostModal} from "../redux/modal/modal-action-creators";
 import PostPage from "./postpage/PostPage";
 import {useDispatch, useSelector} from "react-redux";
-import {fetchPosts} from "../redux/post/post-action-creators";
+import {fetchPosts} from "../redux/post/actions/fetchPosts";
 
 function App() {
     const dispatch = useDispatch();
@@ -18,9 +18,8 @@ function App() {
         async function getPosts() {
             await dispatch(fetchPosts());
         }
-
         getPosts();
-    }, []);
+    }, [dispatch]);
 
     const fabStyle = {
         margin: 0,

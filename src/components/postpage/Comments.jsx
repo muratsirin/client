@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from "react";
 import {Button, Card, Form} from "react-bootstrap";
 import {useDispatch, useSelector} from "react-redux";
-import FormGroup from "../FormGroup";
-import {addComment} from "../../redux/post/post-action-creators";
-import CardSubtitle from "../CardSubtitle";
-import ReUsablePagination from "../ReUsablePagination";
+import FormGroup from "../reusable/FormGroup";
+import CardSubtitle from "../reusable/CardSubtitle";
+import ReUsablePagination from "../reusable/ReUsablePagination";
+import {addComment} from "../../redux/post/actions/addComment";
 
 function Comments() {
     const dispatch = useDispatch();
@@ -13,7 +13,7 @@ function Comments() {
     const postSelector = useSelector((state) => state.post.post);
     const perPage = 10;
     const [pageCount, setPageCount] = useState(0);
-    const [comments, setComments] = useState(useSelector((state) => state.post.post.comments)) ;
+    const [comments, setComments] = useState(useSelector((state) => state.post.post.comments));
     const [offset, setOffset] = useState(0);
     const [comment, setComment] = useState({
         comment: '',
@@ -30,7 +30,7 @@ function Comments() {
         setOffset(newOffset);
     }
 
-    const handleAddPost =()=>{
+    const handleAddPost = () => {
         dispatch(addComment(postID, comment));
     }
 
@@ -38,7 +38,10 @@ function Comments() {
         <div>
             {userSelector.isLoggedIn ? <Form>
                 <FormGroup type='text' name='comment' value={comment.comment}
-                           onChange={(event) => setComment({comment: event.target.value, user: userSelector.currentUser && userSelector.currentUser.id})}
+                           onChange={(event) => setComment({
+                               comment: event.target.value,
+                               user: userSelector.currentUser._id
+                           })}
                            placeholder='Yorum yaz...' as='textarea' rows={3}/>
                 <div className='text-end'>
                     <Button onClick={handleAddPost} variant='success'>Paylaş</Button>
@@ -49,12 +52,12 @@ function Comments() {
                 <div>
                     <h4>Yorumlar</h4>
                     <Card className='mb-4'>
-                        {comments.map(comment=>{
+                        {comments.map((comment, index) => {
                             return (
-                                <Card.Body key={comment._id}>
+                                <Card.Body key={index}>
                                     <Card.Text>{comment.comment}</Card.Text>
                                     <CardSubtitle createdAt={comment.createdAt} updatedAt={comment.updatedAt}
-                                                  firstName={comment.user.firstName} lastName={comment.user.lastName}/>
+                                                  firstName={comment?.user.firstName} lastName={comment?.user.lastName}/>
                                     <hr/>
                                 </Card.Body>
                             );

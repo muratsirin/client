@@ -1,12 +1,10 @@
 import React, {useEffect} from "react";
-import {Col, Container, Row} from "react-bootstrap";
+import {Container} from "react-bootstrap";
 import Post from "./Post";
 import Comments from "./Comments";
 import {useParams} from "react-router-dom";
-import {fetchPostWithID} from "../../redux/post/post-action-creators";
 import {useDispatch} from "react-redux";
-import MostPopularPosts from "../MostPopularPosts";
-import Header from "../homepage/Header";
+import {fetchPostWithID} from "../../redux/post/actions/fetchPost";
 
 function PostPage() {
     const dispatch = useDispatch();
@@ -16,9 +14,8 @@ function PostPage() {
         async function fetchPost() {
             await dispatch(fetchPostWithID(params.id));
         }
-
         fetchPost();
-    }, [params.id]);
+    }, [params.id, dispatch]);
 
     return (
         <div>

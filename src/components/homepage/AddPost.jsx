@@ -1,22 +1,21 @@
 import React, {useState} from "react";
 import {Form} from "react-bootstrap";
-import FormGroup from "../FormGroup";
-import ReUsableModal from "../ReUsableModal";
+import FormGroup from "../reusable/FormGroup";
+import ReUsableModal from "../reusable/ReUsableModal";
 import {useDispatch, useSelector} from "react-redux";
 import {hidePostModal} from "../../redux/modal/modal-action-creators";
-import {addPost} from "../../redux/post/post-action-creators";
+import {addPost} from "../../redux/post/actions/addPost";
 
 function AddPost() {
     const dispatch = useDispatch();
     const currentUser = useSelector((state) => state.auth.currentUser);
     const postModal = useSelector((state) => state.modal.postModal);
+    const [image, setImage] = useState('');
     const [post, setPost] = useState({
         title: '',
         content: '',
-        user: currentUser && currentUser.id,
+        user: currentUser && currentUser._id,
     });
-    const [image, setImage] = useState('');
-
     const handleHidePostModal = () => dispatch(hidePostModal());
 
     function handleChange(event) {

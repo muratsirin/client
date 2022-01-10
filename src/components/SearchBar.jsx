@@ -1,7 +1,7 @@
 import React from "react";
 import {Form, FormControl} from "react-bootstrap";
 import {useDispatch, useSelector} from "react-redux";
-import {changeSearchFilter} from "../redux/post/post-action-creators";
+import {changeSearchFilter} from "../redux/post/actions/searchFilter";
 
 function SearchBar(){
     const dispatch = useDispatch();

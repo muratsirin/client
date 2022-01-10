@@ -1,11 +1,11 @@
 import React, {useState} from "react";
 import {Col, Form, Row} from "react-bootstrap";
-import FormGroup from "../FormGroup";
+import FormGroup from "../reusable/FormGroup";
 import {formValidate, onSubmitValidation} from "../../utils/form-validate";
 import {useDispatch, useSelector} from "react-redux";
-import {register} from "../../redux/authentication/auth-action-creators";
-import ReUsableModal from "../ReUsableModal";
+import ReUsableModal from "../reusable/ReUsableModal";
 import {hideRegisterModal} from "../../redux/modal/modal-action-creators";
+import {register} from "../../redux/authentication/actions/register";
 
 function Register() {
     const dispatch = useDispatch();
@@ -16,7 +16,6 @@ function Register() {
         username: '',
         password: ''
     });
-
     const [errors, setErrors] = useState({
         firstName: '',
         lastName: '',

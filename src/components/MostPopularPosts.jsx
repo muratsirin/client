@@ -11,12 +11,11 @@ function MostPopularPosts() {
             <Card.Body>
                 <ListGroup>
                     {posts.filter(post => {
-                        if (post.comments?.length > 3) {
-                            return post
-                        }
-                    }).slice(0, 10).map(post => {
+                        return post.comments?.length > 3 && post;
+                    }).slice(0, 10).map((post, index) => {
                         return (
-                            <ListGroup.Item><Link to={'/post/'+post._id}>{post.title}</Link></ListGroup.Item>
+                            <ListGroup.Item key={index}><Link
+                                to={'/post/' + post._id}>{post.title}</Link></ListGroup.Item>
                         );
                     })}
                 </ListGroup>

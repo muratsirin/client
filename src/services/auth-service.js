@@ -28,11 +28,9 @@ function handleResponse(response) {
         if (response.status === 401) {
             logout();
         }
-
         const error = (data && data.error) || response.statusText;
         return Promise.reject(error);
     }
-
     return data;
 }
 

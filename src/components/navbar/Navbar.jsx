@@ -1,13 +1,12 @@
 import React from "react";
-import {Container, Nav, Navbar, NavDropdown} from "react-bootstrap";
+import {Container, Nav, Navbar} from "react-bootstrap";
 import Login from "./Login";
 import Register from "./Register";
 import {useSelector} from "react-redux";
 import {useDispatch} from "react-redux";
-import {logout} from "../../redux/authentication/auth-action-creators";
 import {showLoginModal, showRegisterModal} from "../../redux/modal/modal-action-creators";
 import {Link} from "react-router-dom";
-import SearchBar from "../SearchBar";
+import {logout} from "../../redux/authentication/actions/logout";
 
 function NavigationBar() {
     const dispatch = useDispatch();

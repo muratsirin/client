@@ -1,8 +1,8 @@
 import React from "react";
 import {Card} from "react-bootstrap";
 import {useSelector} from "react-redux";
-import PostImage from "../Image";
-import CardSubtitle from "../CardSubtitle";
+import PostImage from "../reusable/Image";
+import CardSubtitle from "../reusable/CardSubtitle";
 
 function Post() {
     const post = useSelector(state => state.post.post);
